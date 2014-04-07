@@ -52,9 +52,21 @@ class LinkPost(Post):
 
 def add_user(email, first_name, last_name):
     user = User(email=email, first_name=first_name, last_name=last_name)
-    print user.save()
-    print type(user.id)
+    user.save()
+    return user
+
+
+def add_textpost(title, author, content, tags=[]):
+    post = TextPost(title=title, author=author, content=content, tags=tags)
+    post.save()
+    return post
 
 
 if __name__ == '__main__':
-    add_user('abcd@gmail.com', 'hello', 'world')
+    user = User.objects.first()
+    if not user:
+        user = add_user('test@gmail.com', 'first', 'last')
+    add_textpost('hello', user, 'mongodb', tags=[])
+    post = Post.objects.first()
+    print type(post.author)
+    print post.author
